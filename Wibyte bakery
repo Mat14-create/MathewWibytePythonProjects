@@ -1,0 +1,70 @@
+print('Welcome to the Wibyte Shop!!!\n')
+
+menu = ['Milkshake', 'Ice-Cream', 'Coffee', 'Tea', 'Eclairs', 'Cupcakes', 'Chicken Sandwich', 'Burger', 'Pizza', 'Salad']
+price = [5.50, 4.50, 3.00, 3.50, 5.00, 3.50, 5.50, 7.00, 19.00, 12.00]
+
+print(f"{'ITEM':<25}{'PRICE (USD) excl tax'}")
+print("-" * 45)
+for kk in range(len(menu)):
+    print(f"{kk+1}. {menu[kk]:<22} {price[kk]:.2f}")
+print("-" * 45)
+
+
+print(" TODAY'S SPECIAL DISCOUNTS ")
+print("- Spend over USD 50.00 and get 15% OFF!")
+print("- Spend over USD 100.00 and get 25% OFF!")
+print("-" * 45)
+print()
+
+cart_items = []
+total_bill = 0.0
+shopping_complete = False
+
+while not shopping_complete:
+    try:
+        order = int(input('Enter 1 to 10 to select an item and 11 to checkout:\n'))
+        
+        if 1 <= order <= 10:
+            selected_item = menu[order - 1]
+            selected_price = price[order - 1]
+            
+            qty = int(input(f'How many {selected_item}s would you like to add?\n'))
+            
+            if qty > 0:
+                cart_items.append(f"{selected_item} x{qty}")
+                total_bill += (selected_price * qty)
+                print(f'Added {qty}x {selected_item} to cart. Current Total: USD {total_bill:.2f}\n')
+            else:
+                print('Quantity must be 1 or more.\n')
+            
+        elif order == 11:
+            print('\nProceeding to checkout.')
+            shopping_complete = True
+        else:
+            print('Invalid Choice. Please enter a number between 1 and 11.\n')
+            
+    except ValueError:
+        print('Invalid Input. Please enter a whole number.\n')
+
+
+discount_percentage = 0
+if total_bill > 100.00:
+    discount_percentage = 25  
+elif total_bill > 50.00:
+    discount_percentage = 15  
+
+discount_amount = total_bill * (discount_percentage / 100)
+final_bill = total_bill - discount_amount
+
+print('\nShopping is complete. Displaying Shopping Cart...')
+print('-----------------------------------------')
+for item in cart_items:
+    print(f'- {item}')
+print('-----------------------------------------')
+print(f'Subtotal:     USD {total_bill:.2f}')
+
+if discount_percentage > 0:
+    print(f'Discount ({discount_percentage}%): USD -{discount_amount:.2f}')
+
+print(f'TOTAL BILL:   USD {final_bill:.2f} (excl tax)')
+print('-----------------------------------------')
